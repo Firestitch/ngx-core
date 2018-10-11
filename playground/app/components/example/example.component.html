@@ -1,0 +1,14 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let tab of tabs"
+     [routerLink]="tab.path"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{tab.label}}
+  </a>
+</nav>
+<router-outlet></router-outlet>
+
+<p>
+  <button type="button" mat-raised-button color="primary" (click)="addClass()">Add Body Class Manually</button>
+</p>
