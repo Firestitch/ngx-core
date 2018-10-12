@@ -1,4 +1,4 @@
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, of, Observable } from 'rxjs';
 
 
 export class RouteSubject {
@@ -23,7 +23,7 @@ export class RouteSubject {
    * @param observable
    * @returns {Observable<this>}
    */
-  public observe(observable) {
+  public observe(observable): Observable<RouteSubject> {
 
     observable.subscribe(val => {
       this.next(val);
@@ -37,7 +37,7 @@ export class RouteSubject {
    * @param val
    * @returns {Observable<this>}
    */
-  public next(val) {
+  public next(val): Observable<RouteSubject> {
     this.subject.next(val);
 
     return of(this);
