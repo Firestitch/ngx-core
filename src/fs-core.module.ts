@@ -1,6 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BodyClassRenderer } from './services';
 
 @NgModule({
   imports: [
@@ -10,8 +9,7 @@ import { BodyClassRenderer } from './services';
 export class FsCoreModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: FsCoreModule,
-      providers: [BodyClassRenderer]
+      ngModule: FsCoreModule
     };
   }
 }

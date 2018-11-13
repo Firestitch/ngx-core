@@ -1,32 +1,32 @@
 import { of } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
+
 
 export class RouteObserver {
 
   private destroy$ = new EventEmitter();
   private route: ActivatedRoute;
+  private routeSubject: any;
   public loaded = false;
+  private name;
 
-  public constructor(route: ActivatedRoute) {
+  public constructor(route: ActivatedRoute, name: string) {
     this.route = route;
+    this.name = name;
   }
 
-  public subscribe(func, name) {
-    return this._subscribe(func, name, this.route.data, false);
+  public subscribe(func) {
+    return this._subscribe(func, this.route.data, false);
   }
 
-  public subscribeChild(func, name) {
-    return this._subscribe(func, name, this.route.parent.data, false);
+  public subscribeChild(func) {
+    return this._subscribe(func, this.route.parent.data, false);
   }
 
-  private _subscribe(func, name, data, destroyObserver) {
-
-    // const pattern = /function[^(]*\(([^)]*)\)/;
-    // const name = func.toString().match(pattern)[1].split(/,\s*/)[0];
-
-    return this.readRouteData(data, name, this.destroy$, destroyObserver)
+  private _subscribe(func, data, destroyObserver) {
+    return this.readRouteData(data, this.destroy$, destroyObserver)
             .subscribe(func);
   }
 
@@ -35,9 +35,15 @@ export class RouteObserver {
     this.destroy$.complete();
   }
 
-  private readRouteData(routerData$, dataKey, destroy$ = null, destroyObserver = false) {
+  public next(value) {
+    if (this.routeSubject) {
+      this.routeSubject.next(value);
+    }
+  }
 
-    if (routerData$ && dataKey) {
+  private readRouteData(routerData$, destroy$ = null, destroyObserver = false) {
+
+    if (routerData$ && this.name) {
       const pipes = [];
 
       if (destroy$) {
@@ -50,20 +56,22 @@ export class RouteObserver {
         .pipe(
           ...pipes,
           switchMap((routerData: any) => {
-            if (routerData && routerData[dataKey] && routerData[dataKey].subject) {
+            if (routerData && routerData[this.name] && routerData[this.name].subject) {
+
+              this.routeSubject = routerData[this.name].subject;
 
               // Destroy Route Observer when parent has been destroyed
               if (destroy$ && destroyObserver) {
                 destroy$.subscribe(() => {
-                  routerData[dataKey].destroy();
-                })
+                  routerData[this.name].destroy();
+                });
               }
 
-              routerData[dataKey].subject.subscribe(() => {
-                this.loaded = true;
-              });
-
-              return routerData[dataKey].subject.pipe(...pipes);
+              return this.routeSubject
+                .pipe(...pipes)
+                .pipe(tap( val => {
+                  this.loaded = true;
+                }));
             } else {
               return of()
             }

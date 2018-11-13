@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BodyClassRenderer } from '../../../../src/services';
 
 
 @Component({
@@ -8,9 +7,9 @@ import { BodyClassRenderer } from '../../../../src/services';
 })
 export class ComponentClassComponent {
 
-  constructor(private bodyClassRenderer: BodyClassRenderer) {}
+  constructor() {}
 
   public ngOnInit() {
-    this.bodyClassRenderer.registerComponentBodyClass(this, 'body-component-class');
+
   }
 }

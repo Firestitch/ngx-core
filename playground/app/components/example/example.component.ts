@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { BodyClassRenderer } from '../../../../src/services';
-import { RouteObserver, RouteSubject } from './../../../../src';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,11 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ExampleComponent {
 
-  public constructor(private bodyClassRenderer: BodyClassRenderer,
-                      private route: ActivatedRoute) {}
-
-  public routeObserver = new RouteObserver(this.route);
-  public routeSubject = new RouteSubject();
+  public constructor(private route: ActivatedRoute) {}
 
   public tabs = [
     { path: '/body/page1', label: 'Page Without Class' },
@@ -21,6 +15,6 @@ export class ExampleComponent {
   ];
 
   public addClass() {
-    this.bodyClassRenderer.addBodyClass('body-from-button-click');
+
   }
 }
