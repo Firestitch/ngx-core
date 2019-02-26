@@ -2,7 +2,7 @@
   "name": "@firestitch/core",
   "title": "Core",
   "description": "@firestitch/core",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-core"
@@ -66,7 +66,5 @@
     "node": ">=6.0.0"
   },
   "peerDependencies": {},
-  "dependencies": {
-    "rxjs-compat": "^6.3.3"
-  }
+  "dependencies": {}
 }
