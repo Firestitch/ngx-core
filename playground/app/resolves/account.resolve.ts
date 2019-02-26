@@ -1,9 +1,8 @@
-
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
-import { RouteSubject } from '../../../src';
-import { of, pipe } from 'rxjs';
+import { RouteSubject } from '@firestitch/core';
+import { of } from 'rxjs';
 import { delay, mapTo } from 'rxjs/operators';
 
 @Injectable()

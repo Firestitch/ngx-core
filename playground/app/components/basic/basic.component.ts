@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { BasicDialogComponent} from './../basic-dialog';
+import { BasicDialogComponent} from '../basic-dialog';
 
 @Component({
   selector: 'basic-example',

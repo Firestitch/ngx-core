@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouteObserver } from '../../../../src';
 import { ActivatedRoute } from '@angular/router';
+import { RouteObserver } from '@firestitch/core';
 
 @Component({
   templateUrl: 'observer.component.html'
@@ -25,7 +25,7 @@ export class ObserverComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.routeObserver
       .next({ name: 'Bob' });
-    },2000);
+    }, 2000);
   }
 
   ngOnDestroy() {

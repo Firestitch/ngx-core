@@ -1,5 +1,6 @@
-@import './../tools/assets/playground.scss';
-@import '../src/styles.scss';
+@import '../tools/assets/playground.scss';
+@import '~@firestitch/message/styles';
+@import '../src/app/styles.scss';
 
 .body-feed {
   .mat-card {
