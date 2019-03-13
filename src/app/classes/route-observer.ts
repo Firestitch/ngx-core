@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 
@@ -11,23 +11,16 @@ export class RouteObserver {
   private routeSubject: any;
   public loaded = false;
   private name;
+  public observer$: Observable<any>;
 
   public constructor(route: ActivatedRoute, name: string) {
     this.route = route;
     this.name = name;
+    this.observer$ = this.createObserver(this.route.data, false);
   }
 
   public subscribe(func) {
-    return this._subscribe(func, this.route.data, false);
-  }
-
-  public subscribeChild(func) {
-    return this._subscribe(func, this.route.parent.data, false);
-  }
-
-  private _subscribe(func, data, destroyObserver) {
-    return this.readRouteData(data, this.destroy$, destroyObserver)
-            .subscribe(func);
+    return this.observer$.subscribe(func);
   }
 
   public destroy() {
@@ -41,7 +34,7 @@ export class RouteObserver {
     }
   }
 
-  private readRouteData(routerData$, destroy$ = null, destroyObserver = false) {
+  private createObserver(routerData$, destroy$ = null, destroyObserver = false) {
 
     if (routerData$ && this.name) {
       const pipes = [];

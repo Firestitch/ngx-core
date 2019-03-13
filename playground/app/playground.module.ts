@@ -25,8 +25,7 @@ import {
   ObserverPage1Component,
   ObserverPage2Component,
   Page1Component,
-  Page2Component,
-  StylingComponent
+  Page2Component
 } from './components';
 
 import { AccountResolve } from './resolves/account.resolve';
@@ -93,7 +92,6 @@ const routes: Routes = [
     ExampleComponent,
     Page1Component,
     Page2Component,
-    StylingComponent,
     BasicDialogComponent,
     BasicComponent,
     ComponentClassComponent,

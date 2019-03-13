@@ -18,6 +18,8 @@ export class ObserverComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeObserver
+    .observer$
+    .pipe()
     .subscribe(account => {
       this.account = account;
     });
