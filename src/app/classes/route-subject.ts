@@ -1,4 +1,4 @@
-import { ReplaySubject, of, Observable } from 'rxjs';
+import { of, Observable, BehaviorSubject } from 'rxjs';
 
 
 export class RouteSubject {
@@ -6,7 +6,7 @@ export class RouteSubject {
   public subject;
 
   constructor() {
-    this.subject = new ReplaySubject();
+    this.subject = new BehaviorSubject(undefined);
   }
 
   /**
