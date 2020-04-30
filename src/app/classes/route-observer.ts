@@ -1,7 +1,8 @@
 import { EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
-import { switchMap, takeUntil, tap, filter } from 'rxjs/operators';
+import { cloneDeep } from 'lodash-es';
+import { switchMap, takeUntil, tap, filter, map } from 'rxjs/operators';
 
 
 export class RouteObserver {
@@ -29,6 +30,9 @@ export class RouteObserver {
     .pipe(
       filter(item => {
         return item !== undefined;
+      }),
+      map(item => {
+        return cloneDeep(item);
       })
     )
   }

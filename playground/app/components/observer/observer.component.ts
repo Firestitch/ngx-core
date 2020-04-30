@@ -8,7 +8,7 @@ import { RouteObserver } from '@firestitch/core';
 export class ObserverComponent implements OnInit, OnDestroy {
 
   public constructor(private route: ActivatedRoute) {}
-  public account = {};
+  public account;
   public routeObserver = new RouteObserver(this.route, 'account');
 
   public tabs = [
@@ -19,15 +19,14 @@ export class ObserverComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeObserver
     .observer$
-    .pipe()
     .subscribe(account => {
       this.account = account;
     });
 
     setTimeout(() => {
       this.routeObserver
-      .next({ name: 'Bob' });
-    }, 2000);
+      .next({ id: 555, name: 'Bob' });
+    }, 3000);
   }
 
   ngOnDestroy() {

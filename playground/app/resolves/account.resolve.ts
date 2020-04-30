@@ -12,6 +12,6 @@ export class AccountResolve implements Resolve<any> {
 
   public resolve(route: ActivatedRouteSnapshot) {
     const routeSubject = new RouteSubject();
-    return routeSubject.observe(of(null).pipe(mapTo({ id: 2324 }), delay(500)));
+    return routeSubject.observe(of(null).pipe(mapTo({ id: 2324, name: 'John' }), delay(1000)));
   }
 }
