@@ -1,6 +1,5 @@
-import { EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 import { switchMap, takeUntil, tap, filter, map } from 'rxjs/operators';
 
@@ -9,7 +8,7 @@ export class RouteObserver {
 
   public loaded = false;
 
-  private _destroy$ = new EventEmitter();
+  private _destroy$ = new Subject();
   private _route: ActivatedRoute;
   private _routeSubject: any;
   private _name;
@@ -18,7 +17,7 @@ export class RouteObserver {
   public constructor(route: ActivatedRoute, name: string) {
     this._route = route;
     this._name = name;
-    this.observer$ = this.createObserver(this._route.data, false);
+    this.observer$ = this.createObserver(this._route.data, this._destroy$);
   }
 
   public set observer$(value) {
@@ -65,7 +64,6 @@ export class RouteObserver {
 
       return routerData$
         .pipe(
-          ...pipes,
           switchMap((routerData: any) => {
             if (routerData && routerData[this._name] && routerData[this._name].subject) {
 
@@ -86,7 +84,8 @@ export class RouteObserver {
             } else {
               return of()
             }
-          })
+          }),
+          ...pipes,
         )
     } else {
       return of()
