@@ -1,18 +1,18 @@
 import { ActivatedRoute } from '@angular/router';
-import { of, Observable, Subject } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
+import { of, Observable, Subject, Subscription } from 'rxjs';
 import { switchMap, takeUntil, tap, filter, map } from 'rxjs/operators';
 
 
-export class RouteObserver {
+export class RouteObserver<T = unknown> {
 
   public loaded = false;
 
   private _destroy$ = new Subject();
   private _route: ActivatedRoute;
-  private _routeSubject: any;
-  private _name;
-  private _observer$: Observable<any>;
+  private _routeSubject: Subject<unknown>;
+  private _name: string;
+  private _observer$: Observable<T>;
 
   public constructor(route: ActivatedRoute, name: string) {
     this._route = route;
@@ -20,11 +20,11 @@ export class RouteObserver {
     this.observer$ = this.createObserver(this._route.data, this._destroy$);
   }
 
-  public set observer$(value) {
+  public set observer$(value: Observable<T>) {
     this._observer$ = value;
   }
 
-  public get observer$() {
+  public get observer$(): Observable<T> {
     return this._observer$
     .pipe(
       filter(item => {
@@ -36,16 +36,16 @@ export class RouteObserver {
     )
   }
 
-  public subscribe(func) {
+  public subscribe(func): Subscription {
     return this.observer$.subscribe(func);
   }
 
-  public destroy() {
+  public destroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
   }
 
-  public next(value) {
+  public next(value): void {
     if (this._routeSubject) {
       this._routeSubject.next(value);
     }
@@ -77,7 +77,7 @@ export class RouteObserver {
               }
 
               return this._routeSubject
-                .pipe(...pipes)
+                .pipe(...pipes as [])
                 .pipe(tap( val => {
                   this.loaded = true;
                 }));
