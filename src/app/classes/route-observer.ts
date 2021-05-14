@@ -1,94 +1,66 @@
 import { ActivatedRoute } from '@angular/router';
+
+import { of, Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
+import { switchMap, filter, map, tap } from 'rxjs/operators';
+
 import { cloneDeep } from 'lodash-es';
-import { of, Observable, Subject, Subscription } from 'rxjs';
-import { switchMap, takeUntil, tap, filter, map } from 'rxjs/operators';
+
+import { RouteSubject } from './route-subject';
+import { collectRoutesData } from '../helpers/collect_routes_data';
 
 
-export class RouteObserver<T = unknown> {
+export class RouteObserver<T = unknown> extends Observable<T> {
 
-  public loaded = false;
-
-  private _destroy$ = new Subject();
-  private _route: ActivatedRoute;
-  private _routeSubject: Subject<unknown>;
-  private _name: string;
-  private _observer$: Observable<T>;
+  private _loaded$ = new BehaviorSubject(false);
+  private _routeSubject$: Subject<unknown>;
 
   public constructor(route: ActivatedRoute, name: string) {
-    this._route = route;
-    this._name = name;
-    this.observer$ = this.createObserver(this._route.data, this._destroy$);
+    super();
+
+    const routesData = collectRoutesData(route);
+    const stream = combineLatest(routesData)
+      .pipe(
+        map((data) => {
+          return data.reduce((acc, routeData) => {
+            return { ...acc, ...routeData };
+          }, {});
+        }, {}),
+        switchMap((routeData: Record<string, RouteSubject | unknown>) => {
+          const target = routeData[name];
+
+          if (target instanceof RouteSubject && target.subject) {
+            this._routeSubject$ = target.subject;
+
+            return target.subject;
+          } else {
+            return of(null);
+          }
+        }),
+        filter((item) => {
+          return item !== undefined;
+        }),
+        map(item => {
+          return cloneDeep(item);
+        }),
+        tap(() => {
+          this._loaded$.next(true);
+        }),
+      );
+
+    this._subscribe = (subscriber => stream.subscribe(subscriber));
   }
 
-  public set observer$(value: Observable<T>) {
-    this._observer$ = value;
+  public get loaded(): boolean {
+    return this._loaded$.getValue();
   }
 
-  public get observer$(): Observable<T> {
-    return this._observer$
-    .pipe(
-      filter(item => {
-        return item !== undefined;
-      }),
-      map(item => {
-        return cloneDeep(item);
-      })
-    )
-  }
-
-  public subscribe(func): Subscription {
-    return this.observer$.subscribe(func);
-  }
-
-  public destroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+  public get loaded$(): Observable<boolean> {
+    return this._loaded$.asObservable();
   }
 
   public next(value): void {
-    if (this._routeSubject) {
-      this._routeSubject.next(value);
-    }
-  }
-
-  private createObserver(routerData$, destroy$ = null, destroyObserver = false) {
-
-    if (routerData$ && this._name) {
-      const pipes = [];
-
-      if (destroy$) {
-        pipes.push(
-          takeUntil(destroy$)
-        )
-      }
-
-      return routerData$
-        .pipe(
-          switchMap((routerData: any) => {
-            if (routerData && routerData[this._name] && routerData[this._name].subject) {
-
-              this._routeSubject = routerData[this._name].subject;
-
-              // Destroy Route Observer when parent has been destroyed
-              if (destroy$ && destroyObserver) {
-                destroy$.subscribe(() => {
-                  routerData[this._name].destroy();
-                });
-              }
-
-              return this._routeSubject
-                .pipe(...pipes as [])
-                .pipe(tap( val => {
-                  this.loaded = true;
-                }));
-            } else {
-              return of()
-            }
-          }),
-          ...pipes,
-        )
-    } else {
-      return of()
+    if (this._routeSubject$) {
+      this._routeSubject$.next(value);
     }
   }
 }
