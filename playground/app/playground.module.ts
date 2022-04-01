@@ -78,7 +78,7 @@ const routes: Routes = [
     AppMaterialModule,
     FormsModule,
     FsSkeletonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     FsExampleModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
