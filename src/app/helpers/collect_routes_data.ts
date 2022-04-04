@@ -6,7 +6,7 @@ export function collectRoutesData(route: ActivatedRoute): Observable<Record<stri
 
   let r = route;
   do {
-    dataSubjects.unshift(route.data);
+    dataSubjects.unshift(r.data);
     r = r.parent;
   }
   while (r);
