@@ -5,6 +5,8 @@ export class RouteSubject {
 
   public subject;
 
+  private _targetObservable: Observable<unknown>;
+
   constructor() {
     this.subject = new BehaviorSubject(undefined);
   }
@@ -23,11 +25,9 @@ export class RouteSubject {
    * @param observable
    * @returns
    */
-  public observe(observable): Observable<RouteSubject> {
-
-    observable.subscribe(val => {
-      this.next(val);
-    });
+  public observe(observable: Observable<unknown>): Observable<RouteSubject> {
+    this._targetObservable = observable;
+    this._load();
 
     return of(this);
   }
@@ -48,5 +48,15 @@ export class RouteSubject {
    */
   public destroy() {
     this.subject.complete();
+  }
+
+  public reload(): void {
+    this._load();
+  }
+
+  private _load(): void {
+    this._targetObservable.subscribe(val => {
+      this.next(val);
+    });
   }
 }

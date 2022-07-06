@@ -12,6 +12,7 @@ import { collectRoutesData } from '../helpers/collect_routes_data';
 export class RouteObserver<T = unknown> extends Observable<T> {
 
   private _loaded$ = new BehaviorSubject(false);
+  private _routeSubject: RouteSubject;
   private _routeSubject$: Subject<unknown>;
 
   public constructor(route: ActivatedRoute, name: string) {
@@ -29,6 +30,7 @@ export class RouteObserver<T = unknown> extends Observable<T> {
           const target = routeData[name];
 
           if (target instanceof RouteSubject && target.subject) {
+            this._routeSubject = target;
             this._routeSubject$ = target.subject;
 
             return target.subject;
@@ -56,6 +58,11 @@ export class RouteObserver<T = unknown> extends Observable<T> {
 
   public get loaded$(): Observable<boolean> {
     return this._loaded$.asObservable();
+  }
+
+  public reload(): void {
+    this._loaded$.next(false);
+    this._routeSubject.reload();
   }
 
   public next(value): void {
