@@ -1,11 +1,11 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
 
-import { collectRoutesData } from '../helpers/collect_routes_data';
+import { collectRoutesData } from '../helpers/collect-routes-data';
 
 import { RouteSubject } from './route-subject';
 
@@ -16,7 +16,7 @@ export class RouteObserver<T = unknown> extends Observable<T> {
   private _routeSubject: RouteSubject;
   private _routeSubject$: Subject<unknown>;
 
-  constructor(route: ActivatedRoute, name: string) {
+  constructor(route: ActivatedRoute | ActivatedRouteSnapshot, name: string) {
     super();
 
     const routesData = collectRoutesData(route);

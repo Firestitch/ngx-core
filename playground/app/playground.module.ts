@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+
+
+import { FsExampleModule } from '@firestitch/example';
+import { FsMessageModule } from '@firestitch/message';
+import { FsSkeletonModule } from '@firestitch/skeleton';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FsCoreModule } from '@firestitch/core';
-import { FsExampleModule } from '@firestitch/example';
-import { FsSkeletonModule } from '@firestitch/skeleton';
-import { FsMessageModule } from '@firestitch/message';
-
 import { AppComponent } from './app.component';
-import { AppMaterialModule } from './material.module';
 import {
   BasicComponent,
   BasicDialogComponent,
@@ -23,9 +23,9 @@ import {
   ObserverPage1Component,
   ObserverPage2Component,
   Page1Component,
-  Page2Component
+  Page2Component,
 } from './components';
-
+import { AppMaterialModule } from './material.module';
 import { AccountResolve } from './resolves/account.resolve';
 
 
@@ -37,7 +37,7 @@ const routes: Routes = [
         {
           path: 'body/page2',
           component: Page2Component,
-          data: { bodyClass: 'body-feed,body-class' }
+          data: { bodyClass: 'body-feed,body-class' },
         },
       ],
   },
@@ -45,15 +45,15 @@ const routes: Routes = [
     path: '', component: ComponentClassComponent, children:
       [
         { path: 'component/class1', component: ComponentClassPageComponent },
-        { path: 'component/class2', component: ComponentClassPageComponent }
-      ]
+        { path: 'component/class2', component: ComponentClassPageComponent },
+      ],
   },
   {
     path: '', component: ComponentClassComponent, children:
       [
         { path: 'component/class1', component: ComponentClassPageComponent },
-        { path: 'component/class2', component: ComponentClassPageComponent }
-      ]
+        { path: 'component/class2', component: ComponentClassPageComponent },
+      ],
   },
   {
     path: '', component: ObserverComponent,
@@ -64,14 +64,12 @@ const routes: Routes = [
         { path: 'observer/page2', component: ObserverPage2Component },
       ],
   },
-
 ];
 
 @NgModule({
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    FsCoreModule,
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
@@ -81,7 +79,7 @@ const routes: Routes = [
     FsMessageModule.forRoot(),
   ],
   entryComponents: [
-    BasicDialogComponent
+    BasicDialogComponent,
   ],
   declarations: [
     AppComponent,
@@ -96,10 +94,10 @@ const routes: Routes = [
     ComponentExampleComponent,
     ObserverPage2Component,
     ObserverPage1Component,
-    ObserverComponent
+    ObserverComponent,
   ],
   providers: [
-    AccountResolve
+    AccountResolve,
   ],
 })
 export class PlaygroundModule {
