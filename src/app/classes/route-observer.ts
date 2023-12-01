@@ -1,12 +1,13 @@
 import { ActivatedRoute } from '@angular/router';
 
-import { of, Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
-import { switchMap, filter, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
 
-import { RouteSubject } from './route-subject';
 import { collectRoutesData } from '../helpers/collect_routes_data';
+
+import { RouteSubject } from './route-subject';
 
 
 export class RouteObserver<T = unknown> extends Observable<T> {
@@ -15,7 +16,7 @@ export class RouteObserver<T = unknown> extends Observable<T> {
   private _routeSubject: RouteSubject;
   private _routeSubject$: Subject<unknown>;
 
-  public constructor(route: ActivatedRoute, name: string) {
+  constructor(route: ActivatedRoute, name: string) {
     super();
 
     const routesData = collectRoutesData(route);
@@ -34,14 +35,14 @@ export class RouteObserver<T = unknown> extends Observable<T> {
             this._routeSubject$ = target.subject;
 
             return target.subject;
-          } else {
-            return of(null);
           }
+
+          return of(null);
         }),
         filter((item) => {
           return item !== undefined;
         }),
-        map(item => {
+        map((item) => {
           return cloneDeep(item);
         }),
         tap(() => {
@@ -49,7 +50,7 @@ export class RouteObserver<T = unknown> extends Observable<T> {
         }),
       );
 
-    this._subscribe = (subscriber => stream.subscribe(subscriber));
+    this._subscribe = ((subscriber) => stream.subscribe(subscriber));
   }
 
   public get loaded(): boolean {

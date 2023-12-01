@@ -1,4 +1,4 @@
-import { of, Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 
 export class RouteSubject {
@@ -13,6 +13,7 @@ export class RouteSubject {
 
   /**
    * Subscribe to observer data changes
+   *
    * @param func
    * @returns
    */
@@ -22,6 +23,7 @@ export class RouteSubject {
 
   /**
    * Observe changes from passed observable (Service)
+   *
    * @param observable
    * @returns
    */
@@ -33,7 +35,8 @@ export class RouteSubject {
   }
 
   /**
-   * Provide value to subscribers
+   * Provide value to subscriber
+   *
    * @param val
    * @returns
    */
@@ -55,7 +58,7 @@ export class RouteSubject {
   }
 
   private _load(): void {
-    this._targetObservable.subscribe(val => {
+    this._targetObservable.subscribe((val) => {
       this.next(val);
     });
   }

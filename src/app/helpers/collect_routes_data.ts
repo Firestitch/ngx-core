@@ -1,4 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
+
 import { Observable } from 'rxjs';
 
 export function collectRoutesData(route: ActivatedRoute): Observable<Record<string, unknown>>[] {

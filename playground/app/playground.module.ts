@@ -9,8 +9,6 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 import { FsMessageModule } from '@firestitch/message';
 
-import { ToastrModule } from 'ngx-toastr';
-
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './material.module';
 import {
@@ -80,7 +78,6 @@ const routes: Routes = [
     FsSkeletonModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     FsExampleModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
   ],
   entryComponents: [
