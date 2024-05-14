@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 
 export class RouteSubject {
 
-  public subject;
+  public subject: BehaviorSubject<any>;
 
   private _targetObservable: Observable<unknown>;
 

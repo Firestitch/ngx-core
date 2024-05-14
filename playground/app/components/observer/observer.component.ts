@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RouteObserver } from '@firestitch/core';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'observer.component.html'
@@ -21,6 +21,7 @@ export class ObserverComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
 
   ngOnInit() {
+
     this.routeObserver
       .pipe(
         takeUntil(this._destroy$),

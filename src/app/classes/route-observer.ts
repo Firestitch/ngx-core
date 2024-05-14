@@ -57,6 +57,10 @@ export class RouteObserver<T = unknown> extends Observable<T> {
     return this._loaded$.getValue();
   }
 
+  public get value(): any {
+    return this._routeSubject?.subject.getValue();
+  }
+
   public get loaded$(): Observable<boolean> {
     return this._loaded$.asObservable();
   }
