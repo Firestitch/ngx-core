@@ -1,27 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { RouteObserver } from '@firestitch/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  templateUrl: 'observer.component.html'
+  templateUrl: './observer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObserverComponent implements OnInit, OnDestroy {
 
-  public constructor(private route: ActivatedRoute) {}
   public account;
-  public routeObserver = new RouteObserver<{ field: number }>(this.route, 'account');
+  public routeObserver;
 
   public tabs = [
     { path: '/observer/page1', label: 'Page 1' },
-    { path: '/observer/page2', label: 'Page 2' }
+    { path: '/observer/page2', label: 'Page 2' },
   ];
 
   private _destroy$ = new Subject<void>();
 
-  ngOnInit() {
+  constructor(
+    private route: ActivatedRoute,
+  ) {
+    this.routeObserver = new RouteObserver<{ field: number }>(this.route, 'account');
+  }
 
+  public ngOnInit() {
     this.routeObserver
       .pipe(
         takeUntil(this._destroy$),

@@ -20,7 +20,7 @@ export class RouteObserver<T = unknown> extends Observable<T> {
     super();
 
     const routesData = collectRoutesData(route);
-    const stream = combineLatest(routesData)
+    combineLatest(routesData)
       .pipe(
         map((data) => {
           return data.reduce((acc, routeData) => {
@@ -49,8 +49,6 @@ export class RouteObserver<T = unknown> extends Observable<T> {
           this._loaded$.next(true);
         }),
       );
-
-    this._subscribe = ((subscriber) => stream.subscribe(subscriber));
   }
 
   public get loaded(): boolean {
