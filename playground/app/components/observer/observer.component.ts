@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { RouteObserver } from '@firestitch/core';
@@ -21,6 +21,7 @@ export class ObserverComponent implements OnInit, OnDestroy {
   ];
 
   private _destroy$ = new Subject<void>();
+  private _cdRef = inject(ChangeDetectorRef);
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,8 @@ export class ObserverComponent implements OnInit, OnDestroy {
       )
       .subscribe((account) => {
         this.account = account;
+
+        this._cdRef.markForCheck();
       });
 
     setTimeout(() => {
