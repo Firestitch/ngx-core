@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 
 
 @Component({
-  selector: 'page2',
-  templateUrl: './page2.component.html'
+    selector: 'page2',
+    templateUrl: './page2.component.html',
+    standalone: true
 })
 export class Page2Component {
 

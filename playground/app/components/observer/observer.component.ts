@@ -1,14 +1,25 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 
 import { RouteObserver } from '@firestitch/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatTabNav, MatTabLink } from '@angular/material/tabs';
+import { JsonPipe } from '@angular/common';
 
 @Component({
-  templateUrl: './observer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './observer.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatTabNav,
+        MatTabLink,
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        JsonPipe,
+    ],
 })
 export class ObserverComponent implements OnInit, OnDestroy {
 

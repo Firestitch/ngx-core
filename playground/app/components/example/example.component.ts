@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { MatTabNav, MatTabLink } from '@angular/material/tabs';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'example',
-  templateUrl: 'example.component.html'
+    selector: 'example',
+    templateUrl: 'example.component.html',
+    standalone: true,
+    imports: [MatTabNav, MatTabLink, RouterLinkActive, RouterLink, RouterOutlet, MatButton]
 })
 export class ExampleComponent {
 

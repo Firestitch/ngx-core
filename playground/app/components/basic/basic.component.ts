@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent} from '../basic-dialog';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'basic-example',
-  templateUrl: 'basic.component.html'
+    selector: 'basic-example',
+    templateUrl: 'basic.component.html',
+    standalone: true,
+    imports: [MatButton]
 })
 export class BasicComponent {
 
