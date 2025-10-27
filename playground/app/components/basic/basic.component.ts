@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicDialogComponent} from '../basic-dialog';
 import { MatButton } from '@angular/material/button';
@@ -10,9 +10,10 @@ import { MatButton } from '@angular/material/button';
     imports: [MatButton]
 })
 export class BasicComponent {
+  private dialog = inject(MatDialog);
+
 
   public dialogRef;
-  constructor(private dialog: MatDialog) {}
 
   public open() {
     this.dialogRef = this.dialog.open(BasicDialogComponent, {

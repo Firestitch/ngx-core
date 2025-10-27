@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -13,14 +13,12 @@ import { MatButton } from '@angular/material/button';
     imports: [FormsModule, MatDialogTitle, CdkScrollable, MatDialogContent, MatFormField, MatInput, MatDialogActions, MatButton, MatDialogClose]
 })
 export class BasicDialogComponent {
+  data = inject(MAT_DIALOG_DATA);
+  private dialogRef = inject<MatDialogRef<BasicDialogComponent>>(MatDialogRef);
+
 
   public object: any = {};
   public input = '';
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<BasicDialogComponent>
-  ) {}
 
   save() {
     this.dialogRef.close();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { MatTabNav, MatTabLink } from '@angular/material/tabs';
 import { MatButton } from '@angular/material/button';
@@ -10,8 +10,8 @@ import { MatButton } from '@angular/material/button';
     imports: [MatTabNav, MatTabLink, RouterLinkActive, RouterLink, RouterOutlet, MatButton]
 })
 export class ExampleComponent {
+  private route = inject(ActivatedRoute);
 
-  public constructor(private route: ActivatedRoute) {}
 
   public tabs = [
     { path: '/body/page1', label: 'Page Without Class' },

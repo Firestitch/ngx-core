@@ -22,6 +22,8 @@ import { JsonPipe } from '@angular/common';
     ],
 })
 export class ObserverComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+
 
   public account;
   public routeObserver;
@@ -34,9 +36,7 @@ export class ObserverComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
   private _cdRef = inject(ChangeDetectorRef);
 
-  constructor(
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     this.routeObserver = new RouteObserver<{ field: number }>(this.route, 'account');
   }
 
